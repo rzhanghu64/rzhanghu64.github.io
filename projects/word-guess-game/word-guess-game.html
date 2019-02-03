@@ -37,18 +37,21 @@
     <!-- Optional JavaScript -->
     <script type="text/javascript">
 
-        var gameResetFlag = true;
-        var pokemonNames = ["bulbasaur","ivysaur","venusaur", "charmander", "charmeleon", "charizard", "squirtle", "wartortle", "blastoise"];
+        var gameResetFlag;
+        var pokemonNames = ["bulbasaur", "ivysaur", "venusaur", "charmander", "charmeleon", "charizard", "squirtle", "wartortle", "blastoise"];
         var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
             'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
             't', 'u', 'v', 'w', 'x', 'y', 'z'];
         var currentWord;
         var revealedLetters = [];
-        var remainingGuesses = 0;
-        var guessedLetters = [];
+        var remainingGuesses;
+        const defaultRemainingGuesses = 5;
+        var guessedLetters;
         var score = 0;
-        document.getElementById("scoreText").innerHTML = "Wins: " + score;
 
+
+        updateScoreText(score);
+        setGameResetFlag(true);
 
         // This function is run whenever the user presses a key.
         document.onkeyup = function (event) {
@@ -56,65 +59,125 @@
             // check if game needs to be reset or started
             if (gameResetFlag) {
                 // get random word from pokemonNames and set to currentWord
-                currentWord = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
+                resetCurrentWord();
 
                 // set revealedLetters to array of "_" matching length of currentWord and display it
-                revealedLetters = new Array(currentWord.length).fill("_ ");
+                resetRevealedLetters();
+                updateRevealedLettersText();
 
-                document.getElementById("revealedLettersText").innerHTML = revealedLetters.join('');
-
-                // reset remainingGuesses to 
-                remainingGuesses = 5;
-                document.getElementById("remainingGuessesText").innerHTML = "Remaining Chances: " + remainingGuesses;
+                // reset remainingGuesses to defaultRemainingGuesses
+                setRemainingGuesses(defaultRemainingGuesses);
+                updateRemainingGuessesText();
 
                 // reset guessedLetters to []
-                guessedLetters = [];
-                document.getElementById("guessedLettersText").innerHTML = "Guessed Letters: " + guessedLetters;
+                resetGuessedLetters();
+                updateGuessedLettersText();
 
                 // set gameResetFlag to false;
-                gameResetFlag = false;
+                setGameResetFlag(false);
             }
 
             // Determines which key was pressed.
             var userGuess = event.key;
-            if (!alphabet.includes(userGuess)) {
+            if (!isInAlphabet(userGuess)) {
                 return;
             }
 
             // Check if guessed letter has been used by going through guessedLetters array.
-            if (!(guessedLetters.includes(userGuess))) {
-                    guessedLetters.push(userGuess);
-                    document.getElementById("guessedLettersText").innerHTML = "Guessed Letters: " + guessedLetters;
+            if (!isInGuessedLetters(userGuess)) {
+                addToGuessedLetters(userGuess);
+                updateGuessedLettersText();
             } else {
                 return;
             }
 
-            // Check if guessed letter is part of word by checking each character in currentWord.
-            for (i = 0; i < currentWord.length; i++) {
-                if (userGuess == currentWord[i]) {
-                    revealedLetters[i] = userGuess;
-                    document.getElementById("revealedLettersText").innerHTML = revealedLetters.join('');
-                }
-            }
-
             // Check if userGuess is not in the word
-            if(!(currentWord.includes(userGuess))) {
-                remainingGuesses--;
-                document.getElementById("remainingGuessesText").innerHTML = "Remaining Chances: " + remainingGuesses;
+            if (!isInCurrentWord(userGuess)) {
+                setRemainingGuesses(remainingGuesses - 1);
+                updateRemainingGuessesText();
+            }
+            // else if in word add to revealedLetters
+            else {
+                for (i = 0; i < currentWord.length; i++) {
+                    if (userGuess == currentWord[i]) {
+                        addToRevealedLetters(userGuess, i);
+                        updateRevealedLettersText();
+                    }
+                }
             }
 
             // check if remainingGuesses is 0 and reset the game
             if (remainingGuesses == 0) {
-                    gameResetFlag = true;
-                    return;
+                setGameResetFlag(true);
+                return;
             }
 
             // Check if word is complete by comparing currentWord to revealedLetters.
-            if (revealedLetters.join('') == currentWord) {
+            if (isGameWon()) {
                 score++;
-                document.getElementById("scoreText").innerHTML = "Wins: " + score;
-                gameResetFlag = true;
+                updateScoreText(score);
+                setGameResetFlag(true);
             }
+        }
+
+        function updateScoreText(score) {
+            document.getElementById("scoreText").innerHTML = "Wins: " + score;
+        }
+
+        function updateRevealedLettersText() {
+            document.getElementById("revealedLettersText").innerHTML = revealedLetters.join('');
+        }
+
+        function updateRemainingGuessesText() {
+            document.getElementById("remainingGuessesText").innerHTML = "Remaining Chances: " + remainingGuesses;
+        }
+
+        function updateGuessedLettersText() {
+            document.getElementById("guessedLettersText").innerHTML = "Guessed Letters: " + guessedLetters;
+        }
+
+        function resetCurrentWord() {
+            currentWord = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
+        }
+
+        function resetRevealedLetters() {
+            revealedLetters = new Array(currentWord.length).fill("_ ");
+        }
+
+        function resetGuessedLetters() {
+            guessedLetters = [];
+        }
+
+        function setGameResetFlag(value) {
+            gameResetFlag = value;
+        }
+
+        function setRemainingGuesses(value) {
+            remainingGuesses = value;
+        }
+
+        function addToGuessedLetters(letter) {
+            guessedLetters.push(letter);
+        }
+
+        function addToRevealedLetters(letter, index) {
+            revealedLetters[index] = letter;
+        }
+
+        function isInAlphabet(key) {
+            return alphabet.includes(key);
+        }
+
+        function isInGuessedLetters(key) {
+            return guessedLetters.includes(key);
+        }
+
+        function isInCurrentWord(key) {
+            return currentWord.includes(key);
+        }
+
+        function isGameWon() {
+            return (revealedLetters.join('') == currentWord)
         }
 
     </script>
