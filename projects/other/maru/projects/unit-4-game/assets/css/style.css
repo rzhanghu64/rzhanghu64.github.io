@@ -1,0 +1,58 @@
+body {
+    background-image: url("../images/houndstooth-pattern.png");
+}
+
+#header {
+    background: orange;
+    color: #ffffff;
+    font-size: 2em;
+    text-align: left;
+    font-family: 'Georgia';
+    font-weight: bold;
+    margin-top: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
+#instructions {
+    background: beige;
+    color: darkgreen;
+    font-size: 1em;
+    font-family: 'Georgia';
+    padding: 1em 1em 1em 1em;
+    margin-top: 1em;
+}
+
+#targetText {
+    background: lightgreen;
+    color: purple;
+    font-size: 1em;
+    font-family: 'Georgia';
+    margin-top: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
+#sumText {
+    background: #4aaaa5;
+    color: #ffffff;
+    font-size: 1em;
+    font-family: 'Georgia';
+    margin-top: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
+#winsCount {
+    background: aqua;
+    color: darkgreen;
+    font-size: 1em;
+    font-family: 'Georgia';
+    margin-top: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
+#lossesCount {
+    background: aqua;
+    color: darkgreen;
+    font-size: 1em;
+    font-family: 'Georgia';
+    padding: 1em 1em 1em 1em;
+}

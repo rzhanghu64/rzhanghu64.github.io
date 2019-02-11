@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+
+    <title>Word Guessing</title>
+</head>
+
+<body>
+    <div id="game">
+        <p id="gameNotification"> Press letter keys and guess the color
+        </p>
+
+        <p id="scoreText">Wins : 0
+        </p>
+
+        <p id="remainingGuessesText">Remaining chances: 5
+        </p>
+
+        <p id="guessedLettersText">Guessed Letters
+        </p>
+
+        <p id="revealedLettersText">
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        var gameResetFlag;
+        var colorNames = ["pink", "red", "orange", "yellow", "green", "blue", "purple", "white", "black"];
+        var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+            'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+            't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        var currentWord;
+        var revealedLetters = [];
+        var remainingGuesses;
+        const defaultRemainingGuesses = 5;
+        var guessedLetters;
+        var score = 0;
+        updateScoreText(score);
+        setGameResetFlag(true);
+    
+        document.onkeyup = function (event) {
+        
+            if (gameResetFlag) {
+                
+                resetCurrentWord();
+                resetRevealedLetters();
+                updateRevealedLettersText();
+                setRemainingGuesses(defaultRemainingGuesses);
+                updateRemainingGuessesText();
+                resetGuessedLetters();
+                updateGuessedLettersText();
+                setGameResetFlag(false);
+            }
+         
+            var userGuess = event.key;
+            if (!isInAlphabet(userGuess)) {
+                return;
+            }
+           
+            if (!isInGuessedLetters(userGuess)) {
+                addToGuessedLetters(userGuess);
+                updateGuessedLettersText();
+            } else {
+                return;
+            }
+            
+            if (!isInCurrentWord(userGuess)) {
+                setRemainingGuesses(remainingGuesses - 1);
+                updateRemainingGuessesText();
+            }
+           
+            else {
+                for (i = 0; i < currentWord.length; i++) {
+                    if (userGuess == currentWord[i]) {
+                        addToRevealedLetters(userGuess, i);
+                        updateRevealedLettersText();
+                    }
+                }
+            }
+           
+            if (remainingGuesses == 0) {
+                setGameResetFlag(true);
+                return;
+            }
+            
+            if (isGameWon()) {
+                score++;
+                updateScoreText(score);
+                setGameResetFlag(true);
+            }
+        }
+        function updateScoreText(score) {
+            document.getElementById("scoreText").innerHTML = "Wins: " + score;
+        }
+        function updateRevealedLettersText() {
+            document.getElementById("revealedLettersText").innerHTML = revealedLetters.join('');
+        }
+        function updateRemainingGuessesText() {
+            document.getElementById("remainingGuessesText").innerHTML = "Remaining Chances: " + remainingGuesses;
+        }
+        function updateGuessedLettersText() {
+            document.getElementById("guessedLettersText").innerHTML = "Guessed Letters: " + guessedLetters;
+        }
+        function resetCurrentWord() {
+            currentWord = colorNames[Math.floor(Math.random() * colorNames.length)];
+        }
+        function resetRevealedLetters() {
+            revealedLetters = new Array(currentWord.length).fill("_ ");
+        }
+        function resetGuessedLetters() {
+            guessedLetters = [];
+        }
+        function setGameResetFlag(value) {
+            gameResetFlag = value;
+        }
+        function setRemainingGuesses(value) {
+            remainingGuesses = value;
+        }
+        function addToGuessedLetters(letter) {
+            guessedLetters.push(letter);
+        }
+        function addToRevealedLetters(letter, index) {
+            revealedLetters[index] = letter;
+        }
+        function isInAlphabet(key) {
+            return alphabet.includes(key);
+        }
+        function isInGuessedLetters(key) {
+            return guessedLetters.includes(key);
+        }
+        function isInCurrentWord(key) {
+            return currentWord.includes(key);
+        }
+        function isGameWon() {
+            return (revealedLetters.join('') == currentWord)
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
