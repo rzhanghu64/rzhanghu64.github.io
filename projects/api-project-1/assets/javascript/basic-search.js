@@ -22,7 +22,7 @@ $.ajax({
 //search for a specific game
 $(document).ready(function () {
     $("#input-submit").click(function () {
-        console.log("clicked");
+        console.log("start submit");
         var gameInput = $("#input-keyword").val();
         $.ajax({
             type: 'GET',
@@ -57,10 +57,3 @@ function loadGamePage() {
     localStorage.setItem("guid", $(this).data("guid"));
     window.location = "results.html";
 };
-
-$("#input-keyword").keyup(function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        $("#input-submit").click();
-    }
-});
