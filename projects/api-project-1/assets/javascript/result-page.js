@@ -19,14 +19,6 @@ $.ajax({
     var h2 = $('<h2>').text(result.name);
     h2.attr('id', 'result-main-title');
 
-    //there's a problem with fetching game ratings for some games
-    // if (result.original_game_rating[0].name == null){
-
-    // }
-    // else{
-    // var gameRating = result.original_game_rating[0].name;
-    // }
-    //var h5Rating = $('<h5>').text(result.original_game_rating[0].name);
     var gameRating;
     if (result.original_game_rating == null) {
         gameRating = "Not Rated";
@@ -34,16 +26,19 @@ $.ajax({
     else{
         gameRating = result.original_game_rating[0].name;
     }
-    var h5Rating = $('<h5>').text(gameRating);
+    var h5Rating = $('<h5>').text('[Rating] ' + gameRating);
+    h5Rating.addClass('text-category');
 
-    // var h5Date = $('<h5>').text();
-    //result.original_release_date
-
-    // appending genres???
-    // for (i = 0; i < results.genres.length; i++) {
-    // var h4 = $('<h4>').text(result.genres[i].name);
-    // h4.attr('id','result-main-category');
-    // }
+    var h4 = $('<h5>');
+    var h4text = "[Genres] ";
+    for (i = 0; i < result.genres.length; i++) {
+     h4text = h4text + result.genres[i].name;
+     if (i != (result.genres.length-1)){
+        h4text = h4text + ", ";
+     }
+     h4.text(h4text);
+    }
+    h4.addClass('text-category');
 
     var p = $('<p>').text(result.deck);
     p.attr('id', 'result-main-deck');
@@ -53,11 +48,11 @@ $.ajax({
     img.attr('id', 'result-main-image');
     img.attr('src', result.image.original_url);
 
-    // resultMainDiv.append(h4);
-    resultMainDiv.append(h5Rating);
     // resultMainDiv.append(h5Date);
     resultMainImg.append(img);
     resultMainDiv.append(h2);
+    resultMainDiv.append(h4);
+    resultMainDiv.append(h5Rating);
     resultMainDiv.append(p);
 
     $('#result-main-container').append(resultMainImg);
@@ -73,8 +68,9 @@ $.ajax({
         var guid = "3030-" + result.similar_games[i].id;
         var div = $('<div>');
         var h = $('<h5>').text(result.similar_games[i].name);
+        h.addClass("card-title");
         div.addClass('card');
-        div.addClass('col-md-2');
+        div.addClass('col-md-4');
         div.attr('id', 'similar-div-' + i);
         div.attr('data-guid', guid);
         div.attr('data-api-url', guid);
@@ -101,6 +97,7 @@ async function fetchCovers() {
             console.log(response);
             var imgsrc = response.results.image.icon_url;
             var img = $('<img>');
+            img.addClass("game-image");
             img.attr('id', 'similar-game-img-'+i);
             img.attr('src', imgsrc);
             $('#similar-div-' + i).prepend(img);
