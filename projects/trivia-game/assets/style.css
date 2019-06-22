@@ -1,0 +1,12 @@
+div {
+    text-align: center;
+}
+
+.container {
+    background-color: orange;
+}
+
+.answer {
+    background-color: lightblue;
+    margin-top: 1em;
+}
