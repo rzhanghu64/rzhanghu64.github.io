@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+    <title>Surprise My Palate - Go Explore the Food World!</title>
+
+    <style>
+        body {
+            background-color: palevioletred;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="container">
+            <div class="row p-3">
+                <div class="card p-3 mb-3 mt-3">
+                    <h1>Surprise My Palate!</h1>
+                    <h2>Let's Go on a Culinary Adventure!</h2>
+                    <h3>Submit what you don't want in your food, and we'll give your taste buds a new experience!</h3>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column mb-3">
+                    <div class="card p-3">
+                        <form>
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" id="ingredient">
+                            </div>
+                            <input type="button" value="Add ingredient to blacklist"
+                                onclick="addBlacklist(document.getElementById('ingredient').value)">
+                            <ul class="list-group mt-3 mb-3" id="currentBlacklist"></ul>
+
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" id="meal">
+                            </div>
+                            <input type="button" value="Add meal to meal history"
+                                onclick="addMealHistory(document.getElementById('meal').value)">
+                            <ul class="list-group mt-3 mb-3" id="currentMealHistory"></ul>
+
+                            <input type="button" class="submitButton" value="Submit blacklist and meal history">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card mb-3" style="min-width:360px">
+                        <img class="card-img-top" style="max-height:300px"
+                            src="https://static01.nyt.com/images/2019/09/18/dining/13Hungry/13Hungry-superJumbo-v2.jpg">
+                        <div class="card-body">
+                            <h5 class="card-title">Nurlan Uyghur Restaurant</h5>
+                            <p class="card-text">Halal, Uzbek, Asian Fusion</p>
+                            <p class="card-text">4.5 stars, 51 reviews</p>
+                            <a class="btn btn-primary"
+                                href="https://www.yelp.com/biz/nurlan-uyghur-restaurant-flushing-2" role="button">See on
+                                Yelp!</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card mb-3" style="min-width:360px">
+                        <img class="card-img-top" style="max-height:300px"
+                            src="https://s3-media0.fl.yelpcdn.com/bphoto/Sm89jMORUKw8o81TRuwWgw/o.jpg">
+                        <div class="card-body">
+                            <h5 class="card-title">Asian Taste 86</h5>
+                            <p class="card-text">Halal, Indonesian</p>
+                            <p class="card-text">4 stars, 97 reviews</p>
+                            <a href="https://www.yelp.com/biz/asian-taste-86-elmhurst" class="btn btn-primary"
+                                role="button">See on
+                                Yelp!</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card mb-3" style="min-width:360px">
+                        <img class="card-img-top" style="max-height:300px"
+                            src="https://s3-media0.fl.yelpcdn.com/bphoto/dMFNVpCKvrAc1qagaIH_Ow/o.jpg">
+                        <div class="card-body">
+                            <h5 class="card-title">Kabul Kabab Restaurant</h5>
+                            <p class="card-text">Afghan, Halal</p>
+                            <p class="card-text">4 stars, 482 reviews</p>
+                            <a href="https://www.yelp.com/biz/kabul-kabab-house-flushing" class="btn btn-primary"
+                                role="button">See on
+                                Yelp!</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row p-3">
+                <div class="card p-3 mb-3 mt-3">
+                    <h2>Questions and Answers</h2>
+                    <h4>Q: Why another food app? What is different about yours?</h4>
+                    <h4>A: We answer a different question than most common apps, which is "What do I want to eat?" It is well researched that as people get older, taste buds will change and people get more conservative with their palate. We want to encourage exploration of the infinitely many cuisines and tastes in the world before that happens. Additionally we aim to bring culinary exposure to underrepresented cuisines in the world, and thus cultural exposure as well.</h3>
+                    <br>
+                    <h5><a href="https://github.com/rzhanghu64/surprise-my-palate">Dev repo</a></h5>
+                    <br>
+                    <h5>By Charles Cheung, Luis Dominguez, and Richard Hu for the 2021 CUNY Hackathon</h5>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="../../models/restaurantcard.js"></script>
+
+    <script src="../../javascript/blacklist.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    </script>
+
+</body>
+
+</html>
